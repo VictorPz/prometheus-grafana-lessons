@@ -45,4 +45,16 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao processar a solicitação");
         }
     }
+
+    @PutMapping("/update/{cpf}")
+    public ResponseEntity<?> updateUserByCpf(@PathVariable String cpf, @RequestBody UserRequestDTO updatedUser) {
+        try {
+            userService.updateUser(cpf, updatedUser);
+            return ResponseEntity.ok("Usuário com CPF " + cpf + " foi atualizado com sucesso.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao processar a solicitação");
+        }
+    }
 }
